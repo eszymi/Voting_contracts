@@ -1,0 +1,14 @@
+{
+  "name": "Voting-contracts",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "eszymi <lowca2121@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-foundry": "^1.1.1",
+    "hardhat": "^2.17.2"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.9.3"
+  }
+}
