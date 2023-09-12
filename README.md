@@ -6,7 +6,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/eszymi/voting_contracts">
-    <img src="images/Voting.png" alt="Logo" width="100" height="100">
+    <img src="images/Voting.png" alt="Logo" width="250" height="250">
   </a>
 </div>
 
@@ -88,6 +88,6 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 Szymon - [Linkdein](https://www.linkedin.com/in/szymon-skrzy%C5%84ski-881462214/)
 
-Project Link: [https://github.com/github_username/repo_name](https://github.com/eszymi/voting_contracts)
+Project Link: [https://github.com/eszymi/voting_contracts](https://github.com/eszymi/voting_contracts)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
