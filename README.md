@@ -1,7 +1,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/github_username/repo_name">
-    <img src="images/voting.png" alt="Logo" width="80" height="80">
+    <img src="images/Voting.png" alt="Logo" width="80" height="80">
   </a>
 
 <h3 align="center">Voting contracts</h3>
@@ -21,6 +21,7 @@
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
   </ol>
+  <details>
 
 
 
