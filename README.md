@@ -10,6 +10,8 @@
 <h3 align="center">Voting contracts</h3>
 
 <!-- TABLE OF CONTENTS -->
+
+## TABLE OF CONTENTS
   <ol>
     <li>
       <a href="#about-the-project">About The Project</a>
