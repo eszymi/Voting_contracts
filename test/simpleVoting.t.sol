@@ -8,7 +8,7 @@ import {console} from "lib/forge-std/src/console.sol";
 import {Token} from "contracts/Token.sol";
 import {SimpleVoting, SimpleVotingEvents} from "contracts/SimpleVoting.sol";
 
-contract Testing is Test, SimpleVotingEvents {
+contract SimpleVotingTest is Test, SimpleVotingEvents {
     uint256 public constant VOTING_PERIOD = 3600;
 
     address o1 = makeAddr("o1");
@@ -19,13 +19,6 @@ contract Testing is Test, SimpleVotingEvents {
 
     Token token;
     SimpleVoting voting;
-
-    struct Proposal {
-        bytes32 name; // short name (up to 32 bytes)
-        uint256 deadline; // expiring of the proposal
-        uint256 yesCount; // number of possitive votes
-        uint256 noCount; // number of negative votes
-    }
 
     /// preliminary state
     function setUp() public {
@@ -114,7 +107,7 @@ contract Testing is Test, SimpleVotingEvents {
 
         vote(o3, 0, true);
 
-        vm.warp(block.timestamp + VOTING_PERIOD + 1);
+        vm.roll(block.timestamp + VOTING_PERIOD + 1);
 
         uint256 balance = token.balanceOf(o3);
         assertEq(balance, 0);
@@ -145,9 +138,9 @@ contract Testing is Test, SimpleVotingEvents {
 
         vote(o1, 0, value);
 
-        vm.warp(block.timestamp + VOTING_PERIOD + 1);
+        vm.roll(block.timestamp + VOTING_PERIOD + 1);
 
-        vm.expectEmit(true, false, false, true);
+        vm.expectEmit(true , false, false, true);
         emit NoResult(0);
 
         voting.result(0);
@@ -159,7 +152,7 @@ contract Testing is Test, SimpleVotingEvents {
         vote(o1, 0, value);
         vote(o3, 0, value);
 
-        vm.warp(block.timestamp + VOTING_PERIOD + 1);
+        vm.roll(block.timestamp + VOTING_PERIOD + 1);
 
         vm.expectEmit(true, true, false, true);
         emit Result(0, value);
