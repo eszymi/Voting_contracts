@@ -54,7 +54,7 @@ contract SimpleVotingTest is Test, VotingWithDelegateEvents {
 
     function createProposal(uint256 last) public {
         vm.prank(admin);
-        voting.createProposal("test", last);
+        voting.createProposal("test", last) ;
     }
 
     function vote(address _address, uint256 numberOfProposal, bool _value) public {
@@ -372,7 +372,7 @@ contract DelegateVotingTest is Test, VotingWithDelegateEvents {
         emit DelegateVoted(0, o5, balanceO1 + balanceO2, true);
 
         vm.prank(o5);
-        voting.delegateVote(0, balanceO1 + balanceO2, true);
+        voting.delegateVote(0, balanceO1 + balanceO2, true );
 
         (,, uint256 yesCount, uint256 noCount) = voting.proposals(0);
         assertEq(yesCount, balanceO1 + balanceO2);

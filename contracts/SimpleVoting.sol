@@ -13,7 +13,7 @@ contract SimpleVotingEvents {
 
 contract SimpleVoting is SimpleVotingEvents {
     uint256 constant MIN_TOKENS_TO_CREATE_PROPOSAL = 10e18;
-    uint256 constant MINIMUM = 2; // minimum voters that has to take part in the voting is the total amount of the token divided by this value
+    uint256 constant MINIMUM = 2; // minimum voters that has to take part in the voting is the total amount of the token divided by this value 
 
     bool public locked = false;
 

@@ -111,7 +111,7 @@ contract VotingWithDelegate is VotingWithDelegateEvents {
         lockedTokens[numberOfProposal][msg.sender] = 0;
 
         uint256 delegatedAmount = lockedDelegatedTokens[numberOfProposal][msg.sender];
-        lockedDelegatedTokens[numberOfProposal][msg.sender] = 0;
+        lockedDelegatedTokens[numberOfProposal][msg.sender] =  0;
 
         if (lockedAmount + delegatedAmount < voteToken.balanceOf(address(this))) {
             voteToken.transfer(msg.sender, lockedAmount + delegatedAmount);

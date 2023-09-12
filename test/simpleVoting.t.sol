@@ -140,7 +140,7 @@ contract SimpleVotingTest is Test, SimpleVotingEvents {
 
         vm.roll(block.timestamp + VOTING_PERIOD + 1);
 
-        vm.expectEmit(true, false, false, true);
+        vm.expectEmit(true , false, false, true);
         emit NoResult(0);
 
         voting.result(0);
