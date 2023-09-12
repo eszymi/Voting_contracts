@@ -1,10 +1,12 @@
 <!-- PROJECT SHIELDS -->
 <!--
 
+
+<!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/github_username/repo_name">
-    [Voting](https://github.com/eszymi/voting_contracts/assets/98648454/3b4f85ad-8642-490c-8886-aa1fb1774469)
+  <a href="https://github.com/eszymi/voting_contracts">
+    <img src="images/Voting.png" alt="Logo" width="80" height="80">
   </a>
 
 
@@ -91,4 +93,3 @@ Szymon - [Linkdein](https://www.linkedin.com/in/szymon-skrzy%C5%84ski-881462214/
 Project Link: [https://github.com/github_username/repo_name](https://github.com/eszymi/voting_contracts)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
