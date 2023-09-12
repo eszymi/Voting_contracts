@@ -1,4 +1,4 @@
-<!--<h3 align="center">Voting contracts</h3>-->
+<h3 align="center">Voting contracts</h3>
 
 
 
@@ -8,6 +8,7 @@
   <a href="https://github.com/eszymi/voting_contracts">
     <img src="images/Voting.png" alt="Logo" width="100" height="100">
   </a>
+</div>
 
 
 
