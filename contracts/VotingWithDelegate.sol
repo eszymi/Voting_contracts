@@ -4,16 +4,20 @@ pragma solidity 0.8.19;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-contract SimpleVotingEvents {
+contract VotingWithDelegateEvents {
+    event NewProposer(address indexed _oldProposer, address indexed _newProposer);
     event NowProposal(uint256 indexed _numberOfProposal, uint256 _lastBlocks);
+    event Delegated(address indexed _from, address indexed _to, uint256 indexed _numberOfProposal, uint256 _votes);
     event Voted(uint256 indexed _numberOfProposal, address indexed _voter, uint256 _votes, bool _yes);
+    event DelegateVoted(uint256 indexed _numberOfProposal, address indexed _delegatedVoter, uint256 _votes, bool _yes);
     event NoResult(uint256 indexed _numberOfProposal);
     event Result(uint256 indexed _numberOfProposal, bool indexed _accepted);
 }
 
-contract SimpleVoting is SimpleVotingEvents {
-    uint256 constant MIN_TOKENS_TO_CREATE_PROPOSAL = 10e18;
-    uint256 constant MINIMUM = 2; // minimum voters that has to take part in the voting is the total amount of the token divided by this value
+contract VotingWithDelegate is VotingWithDelegateEvents {
+    uint256 constant MINIMUM = 2; // minimum voters that has to take part in the voting is the total amount of the token divided by this
+
+    address public proposer; // address which is able to create a new Proposal
 
     bool public locked = false;
 
@@ -29,13 +33,16 @@ contract SimpleVoting is SimpleVotingEvents {
     IERC20 public voteToken;
 
     mapping(uint256 => mapping(address => uint256)) lockedTokens;
+    mapping(uint256 => mapping(address => uint256)) lockedDelegatedTokens;
+    mapping(uint256 => mapping(address => uint256)) delegatedTokens;
 
     constructor(address voteTokenAddress) {
         voteToken = IERC20(voteTokenAddress);
+        proposer = msg.sender;
     }
 
-    modifier enoughtTokens() {
-        require(voteToken.balanceOf(msg.sender) > MIN_TOKENS_TO_CREATE_PROPOSAL, "Modifier: not enought tokens");
+    modifier Proposer() {
+        require(msg.sender == proposer, "Modifier: you're not proposer");
         _;
     }
 
@@ -46,9 +53,14 @@ contract SimpleVoting is SimpleVotingEvents {
         locked = false;
     }
 
+    function changeProposer(address _newProposer) public Proposer {
+        proposer = _newProposer;
+        emit NewProposer(msg.sender, _newProposer);
+    }
+
     function createProposal(bytes32 _name, uint256 lastBlocks)
         public
-        enoughtTokens
+        Proposer
         nonReentrant
         returns (uint256 numberOfProposal)
     {
@@ -57,9 +69,16 @@ contract SimpleVoting is SimpleVotingEvents {
         emit NowProposal(numberOfProposal, lastBlocks);
     }
 
-    // You need approve tokens to this contract before you call vote
+    function delegate(address to, uint256 numberOfProposal, uint256 votes) public nonReentrant {
+        require(voteToken.balanceOf(msg.sender) >= votes, "Delegate: not enought tokens");
+        voteToken.transferFrom(msg.sender, address(this), votes);
+        lockedDelegatedTokens[numberOfProposal][msg.sender] += votes;
+        delegatedTokens[numberOfProposal][to] += votes;
+        emit Delegated(msg.sender, to, numberOfProposal, votes);
+    }
+
     function vote(uint256 numberOfProposal, uint256 votes, bool yes) public nonReentrant {
-        require(proposals[numberOfProposal].deadline > block.number, "Vote: too early");
+        require(proposals[numberOfProposal].deadline > block.number, "Vote: too late");
 
         voteToken.transferFrom(msg.sender, address(this), votes);
         lockedTokens[numberOfProposal][msg.sender] += votes;
@@ -72,12 +91,30 @@ contract SimpleVoting is SimpleVotingEvents {
         emit Voted(numberOfProposal, msg.sender, votes, yes);
     }
 
+    function delegateVote(uint256 numberOfProposal, uint256 votes, bool yes) public nonReentrant {
+        require(proposals[numberOfProposal].deadline > block.number, "DelegateVote: too late");
+
+        require(votes <= delegatedTokens[numberOfProposal][msg.sender], "DelegatedVote: too many votes");
+        delegatedTokens[numberOfProposal][msg.sender] -= votes;
+
+        if (yes) {
+            proposals[numberOfProposal].yesCount += votes;
+        } else {
+            proposals[numberOfProposal].noCount += votes;
+        }
+        emit DelegateVoted(numberOfProposal, msg.sender, votes, yes);
+    }
+
     function withdraw(uint256 numberOfProposal) public nonReentrant {
         require(proposals[numberOfProposal].deadline < block.number, "Withdraw: too early");
-        uint256 amount = lockedTokens[numberOfProposal][msg.sender];
+        uint256 lockedAmount = lockedTokens[numberOfProposal][msg.sender];
         lockedTokens[numberOfProposal][msg.sender] = 0;
-        if (amount < voteToken.balanceOf(address(this))) {
-            voteToken.transfer(msg.sender, amount);
+
+        uint256 delegatedAmount = lockedDelegatedTokens[numberOfProposal][msg.sender];
+        lockedDelegatedTokens[numberOfProposal][msg.sender] = 0;
+
+        if (lockedAmount + delegatedAmount < voteToken.balanceOf(address(this))) {
+            voteToken.transfer(msg.sender, lockedAmount + delegatedAmount);
         } else {
             voteToken.transfer(msg.sender, voteToken.balanceOf(address(this)));
         }

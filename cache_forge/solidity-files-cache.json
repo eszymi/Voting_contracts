@@ -13,8 +13,8 @@
   },
   "files": {
     "contracts/SimpleVoting.sol": {
-      "lastModificationDate": 1694172604993,
-      "contentHash": "3a3a44459f46dd6eee4b9b55dadc7757",
+      "lastModificationDate": 1694196473965,
+      "contentHash": "7df6eacbad2a42dce330ac83d918f3a9",
       "sourceName": "contracts/SimpleVoting.sol",
       "solcConfig": {
         "settings": {
@@ -100,6 +100,51 @@
       "artifacts": {
         "Token": {
           "0.8.19+commit.7dd6d404.Linux.gcc": "Token.sol/Token.json"
+        }
+      }
+    },
+    "contracts/VotingWithDelegate.sol": {
+      "lastModificationDate": 1694368823727,
+      "contentHash": "aa8d679376fd698ebd974ea9e410f5d4",
+      "sourceName": "contracts/VotingWithDelegate.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol"
+      ],
+      "versionRequirement": "=0.8.19",
+      "artifacts": {
+        "VotingWithDelegate": {
+          "0.8.19+commit.7dd6d404.Linux.gcc": "VotingWithDelegate.sol/VotingWithDelegate.json"
+        },
+        "VotingWithDelegateEvents": {
+          "0.8.19+commit.7dd6d404.Linux.gcc": "VotingWithDelegate.sol/VotingWithDelegateEvents.json"
         }
       }
     },
@@ -1086,8 +1131,8 @@
       }
     },
     "test/simpleVoting.t.sol": {
-      "lastModificationDate": 1694172613403,
-      "contentHash": "b83ff2b6e7b84d02ad930eea60895ccd",
+      "lastModificationDate": 1694367022247,
+      "contentHash": "3f98fa2b2c96855e9594405355a6bd49",
       "sourceName": "test/simpleVoting.t.sol",
       "solcConfig": {
         "settings": {
@@ -1146,8 +1191,77 @@
       ],
       "versionRequirement": "^0.8.19",
       "artifacts": {
-        "Testing": {
-          "0.8.19+commit.7dd6d404.Linux.gcc": "simpleVoting.t.sol/Testing.json"
+        "SimpleVotingTest": {
+          "0.8.19+commit.7dd6d404.Linux.gcc": "simpleVoting.t.sol/SimpleVotingTest.json"
+        }
+      }
+    },
+    "test/votingWithDelegate.t.sol": {
+      "lastModificationDate": 1694374919506,
+      "contentHash": "c84879564d559a6025c0e22fce496dc9",
+      "sourceName": "test/votingWithDelegate.t.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "contracts/Token.sol",
+        "contracts/VotingWithDelegate.sol",
+        "lib/forge-std/lib/ds-test/src/test.sol",
+        "lib/forge-std/src/Base.sol",
+        "lib/forge-std/src/StdAssertions.sol",
+        "lib/forge-std/src/StdChains.sol",
+        "lib/forge-std/src/StdCheats.sol",
+        "lib/forge-std/src/StdError.sol",
+        "lib/forge-std/src/StdInvariant.sol",
+        "lib/forge-std/src/StdJson.sol",
+        "lib/forge-std/src/StdMath.sol",
+        "lib/forge-std/src/StdStorage.sol",
+        "lib/forge-std/src/StdStyle.sol",
+        "lib/forge-std/src/StdUtils.sol",
+        "lib/forge-std/src/Test.sol",
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/console.sol",
+        "lib/forge-std/src/console2.sol",
+        "lib/forge-std/src/interfaces/IMulticall3.sol",
+        "lib/forge-std/src/safeconsole.sol",
+        "node_modules/@openzeppelin/contracts/access/Ownable.sol",
+        "node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol",
+        "node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol",
+        "node_modules/@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol",
+        "node_modules/@openzeppelin/contracts/utils/Context.sol"
+      ],
+      "versionRequirement": "^0.8.19",
+      "artifacts": {
+        "DelegateVotingTest": {
+          "0.8.19+commit.7dd6d404.Linux.gcc": "votingWithDelegate.t.sol/DelegateVotingTest.json"
+        },
+        "SimpleVotingTest": {
+          "0.8.19+commit.7dd6d404.Linux.gcc": "votingWithDelegate.t.sol/SimpleVotingTest.json"
         }
       }
     }
