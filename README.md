@@ -1,3 +1,6 @@
+<!-- PROJECT SHIELDS -->
+<!--
+
 <br />
 <div align="center">
   <a href="https://github.com/github_username/repo_name">
@@ -21,7 +24,7 @@
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
   </ol>
-  <details>
+<details>
 
 
 
