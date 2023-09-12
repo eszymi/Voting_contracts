@@ -4,14 +4,15 @@
 <br />
 <div align="center">
   <a href="https://github.com/github_username/repo_name">
-    <img src="../images/Voting.png" alt="Logo" width="80" height="80">
+    [Voting](https://github.com/eszymi/voting_contracts/assets/98648454/3b4f85ad-8642-490c-8886-aa1fb1774469)
   </a>
+
 
 <h3 align="center">Voting contracts</h3>
 
 <!-- TABLE OF CONTENTS -->
 
-## TABLE OF CONTENTS
+## Table of content
   <ol>
     <li>
       <a href="#about-the-project">About The Project</a>
