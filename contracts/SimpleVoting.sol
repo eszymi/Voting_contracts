@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract SimpleVotingEvents {
     event NowProposal(uint256 indexed _numberOfProposal, uint256 _lastBlocks);
-    event Voted(uint256 indexed _numberOfProposal, address indexed _voter, uint256 _votes, bool _yes);
+    event Voted(uint256 indexed _numberOfProposal, address indexed _voter, uint256 _votes, bool _choose);
     event NoResult(uint256 indexed _numberOfProposal);
     event Result(uint256 indexed _numberOfProposal, bool indexed _accepted);
 }
@@ -58,18 +58,18 @@ contract SimpleVoting is SimpleVotingEvents {
     }
 
     // You need approve tokens to this contract before you call vote
-    function vote(uint256 numberOfProposal, uint256 votes, bool yes) public nonReentrant {
+    function vote(uint256 numberOfProposal, uint256 votes, bool choose) public nonReentrant {
         require(proposals[numberOfProposal].deadline > block.number, "Vote: too early");
 
         voteToken.transferFrom(msg.sender, address(this), votes);
         lockedTokens[numberOfProposal][msg.sender] += votes;
 
-        if (yes) {
+        if (choose) {
             proposals[numberOfProposal].yesCount += votes;
         } else {
             proposals[numberOfProposal].noCount += votes;
         }
-        emit Voted(numberOfProposal, msg.sender, votes, yes);
+        emit Voted(numberOfProposal, msg.sender, votes, choose);
     }
 
     function withdraw(uint256 numberOfProposal) public nonReentrant {

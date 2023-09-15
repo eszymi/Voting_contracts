@@ -9,7 +9,7 @@ contract VotingWithDelegateEvents {
     event NowProposal(uint256 indexed _numberOfProposal, uint256 _lastBlocks);
     event Delegated(address indexed _from, address indexed _to, uint256 indexed _numberOfProposal, uint256 _votes);
     event Voted(uint256 indexed _numberOfProposal, address indexed _voter, uint256 _votes, bool _yes);
-    event DelegateVoted(uint256 indexed _numberOfProposal, address indexed _delegatedVoter, uint256 _votes, bool _yes);
+    event DelegateVoted(uint256 indexed _numberOfProposal, address indexed _delegatedVoter, uint256 _votes, bool _choose);
     event NoResult(uint256 indexed _numberOfProposal);
     event Result(uint256 indexed _numberOfProposal, bool indexed _accepted);
 }
@@ -77,32 +77,32 @@ contract VotingWithDelegate is VotingWithDelegateEvents {
         emit Delegated(msg.sender, to, numberOfProposal, votes);
     }
 
-    function vote(uint256 numberOfProposal, uint256 votes, bool yes) public nonReentrant {
+    function vote(uint256 numberOfProposal, uint256 votes, bool choose) public nonReentrant {
         require(proposals[numberOfProposal].deadline > block.number, "Vote: too late");
 
         voteToken.transferFrom(msg.sender, address(this), votes);
         lockedTokens[numberOfProposal][msg.sender] += votes;
 
-        if (yes) {
+        if (choose) {
             proposals[numberOfProposal].yesCount += votes;
         } else {
             proposals[numberOfProposal].noCount += votes;
         }
-        emit Voted(numberOfProposal, msg.sender, votes, yes);
+        emit Voted(numberOfProposal, msg.sender, votes, choose);
     }
 
-    function delegateVote(uint256 numberOfProposal, uint256 votes, bool yes) public nonReentrant {
+    function delegateVote(uint256 numberOfProposal, uint256 votes, bool choose) public nonReentrant {
         require(proposals[numberOfProposal].deadline > block.number, "DelegateVote: too late");
 
         require(votes <= delegatedTokens[numberOfProposal][msg.sender], "DelegatedVote: too many votes");
         delegatedTokens[numberOfProposal][msg.sender] -= votes;
 
-        if (yes) {
+        if (choose) {
             proposals[numberOfProposal].yesCount += votes;
         } else {
             proposals[numberOfProposal].noCount += votes;
         }
-        emit DelegateVoted(numberOfProposal, msg.sender, votes, yes);
+        emit DelegateVoted(numberOfProposal, msg.sender, votes, choose);
     }
 
     function withdraw(uint256 numberOfProposal) public nonReentrant {
