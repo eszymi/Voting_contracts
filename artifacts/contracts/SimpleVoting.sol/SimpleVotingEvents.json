@@ -1,0 +1,93 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "SimpleVotingEvents",
+  "sourceName": "contracts/SimpleVoting.sol",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "_numberOfProposal",
+          "type": "uint256"
+        }
+      ],
+      "name": "NoResult",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "_numberOfProposal",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_lastBlocks",
+          "type": "uint256"
+        }
+      ],
+      "name": "NowProposal",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "_numberOfProposal",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "bool",
+          "name": "_accepted",
+          "type": "bool"
+        }
+      ],
+      "name": "Result",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "_numberOfProposal",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_voter",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_votes",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "bool",
+          "name": "_yes",
+          "type": "bool"
+        }
+      ],
+      "name": "Voted",
+      "type": "event"
+    }
+  ],
+  "bytecode": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea2646970667358221220a15f300171088a65f6cd8189cf53edef44b19447bc51eaee81aa515049d3800764736f6c63430008130033",
+  "deployedBytecode": "0x6080604052600080fdfea2646970667358221220a15f300171088a65f6cd8189cf53edef44b19447bc51eaee81aa515049d3800764736f6c63430008130033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}
