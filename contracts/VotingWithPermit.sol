@@ -14,9 +14,7 @@ interface IERC20WithPermit is IERC20 {
 }
 
 contract VotingWithPermitEvents is VotingWithDelegateEvents {
-    event DelegatedByPermit(
-        address indexed _from, address indexed _to, uint256 indexed numberOfProposal, uint256 votes
-    );
+    event PermitVoted(uint256 indexed _numberOfProposal, address indexed _voter, uint256 _votes, bool _choose);
 }
 
 contract VotingWithPermit is VotingWithPermitEvents, EIP712, Nonces {
@@ -27,7 +25,7 @@ contract VotingWithPermit is VotingWithPermitEvents, EIP712, Nonces {
     using ECDSA for bytes32;
 
     bytes32 public constant PERMIT_TYPEHASH = keccak256(
-        "Permit(address owner,address spender,uint256 numberOfProposal, uint256 value,uint256 nonce,uint256 deadline)"
+        "Permit(address owner, uint256 numberOfProposal, uint256 votes, bool choose, uint256 nonce, uint256 deadline)"
     );
 
     uint256 constant MINIMUM = 2; // minimum voters that has to take part in the voting is the total amount of the token divided by this
@@ -94,28 +92,28 @@ contract VotingWithPermit is VotingWithPermitEvents, EIP712, Nonces {
     }
 
     /* you could give signed massage to someone to use this function. This function transfer tokens from your 
-    address to the address of contract and give access to spender to use it in the voting. You don't need approved tokens before
+    address to the address of contract and then it call _vote function. 
+    Thanks that you don't need to pay for the gas. You don't need approved tokens before
     */
-    function permit(
+    function permitVote(
         address _owner,
-        address spender,
         uint256 numberOfProposal,
-        uint256 value,
+        uint256 votes,
+        bool choose,
         uint256 deadline,
         bytes32 hash,
         uint8 v,
         bytes32 r,
         bytes32 s
-    ) public {
+    ) public nonReentrant {
         if (block.timestamp > deadline) {
             revert ERC2612ExpiredSignature(deadline);
         }
         bytes32 digest;
         {
             uint256 _nonce = nonces(_owner) + 1;
-            digest = keccak256(
-                abi.encode(PERMIT_TYPEHASH, _owner, spender, numberOfProposal, value, _nonce, deadline)
-            ).toEthSignedMessageHash();
+            digest = keccak256(abi.encode(PERMIT_TYPEHASH, _owner, numberOfProposal, votes, choose, _nonce, deadline))
+                .toEthSignedMessageHash();
         }
 
         require(hash == digest, "Permit: wrong hash");
@@ -124,40 +122,32 @@ contract VotingWithPermit is VotingWithPermitEvents, EIP712, Nonces {
         if (signer != _owner) {
             revert ERC2612InvalidSigner(signer, _owner);
         }
-        
+
         _useNonce(_owner);
 
-        voteToken.approveForDelegate(_owner, value);
+        voteToken.approveForDelegate(_owner, votes);
 
-        _delegateByPermit(_owner, spender, numberOfProposal, value);
+        _vote(_owner, numberOfProposal, votes, choose);
+
+        emit PermitVoted(numberOfProposal, _owner, votes, choose);
     }
 
-    function vote(uint256 numberOfProposal, uint256 votes, bool yes) public nonReentrant {
-        require(proposals[numberOfProposal].deadline > block.number, "Vote: too late");
-
-        voteToken.transferFrom(msg.sender, address(this), votes);
-        lockedTokens[numberOfProposal][msg.sender] += votes;
-
-        if (yes) {
-            proposals[numberOfProposal].yesCount += votes;
-        } else {
-            proposals[numberOfProposal].noCount += votes;
-        }
-        emit Voted(numberOfProposal, msg.sender, votes, yes);
+    function vote(uint256 numberOfProposal, uint256 votes, bool choose) public nonReentrant {
+        _vote(msg.sender, numberOfProposal, votes, choose);
     }
 
-    function delegateVote(uint256 numberOfProposal, uint256 votes, bool yes) public nonReentrant {
+    function delegateVote(uint256 numberOfProposal, uint256 votes, bool choose) public nonReentrant {
         require(proposals[numberOfProposal].deadline > block.number, "DelegateVote: too late");
 
         require(votes <= delegatedTokens[numberOfProposal][msg.sender], "DelegatedVote: too many votes");
         delegatedTokens[numberOfProposal][msg.sender] -= votes;
 
-        if (yes) {
+        if (choose) {
             proposals[numberOfProposal].yesCount += votes;
         } else {
             proposals[numberOfProposal].noCount += votes;
         }
-        emit DelegateVoted(numberOfProposal, msg.sender, votes, yes);
+        emit DelegateVoted(numberOfProposal, msg.sender, votes, choose);
     }
 
     function withdraw(uint256 numberOfProposal) public nonReentrant {
@@ -187,14 +177,17 @@ contract VotingWithPermit is VotingWithPermitEvents, EIP712, Nonces {
         }
     }
 
-    function _delegateByPermit(address from, address to, uint256 numberOfProposal, uint256 votes)
-        internal
-        nonReentrant
-    {
-        require(voteToken.balanceOf(from) >= votes, "Delegate: not enought tokens");
-        voteToken.transferFrom(from, address(this), votes);
-        lockedDelegatedTokens[numberOfProposal][from] += votes;
-        delegatedTokens[numberOfProposal][to] += votes;
-        emit DelegatedByPermit(from, to, numberOfProposal, votes);
+    function _vote(address voter, uint256 numberOfProposal, uint256 votes, bool choose) internal {
+        require(proposals[numberOfProposal].deadline > block.number, "Vote: too late");
+
+        voteToken.transferFrom(voter, address(this), votes);
+        lockedTokens[numberOfProposal][voter] += votes;
+
+        if (choose) {
+            proposals[numberOfProposal].yesCount += votes;
+        } else {
+            proposals[numberOfProposal].noCount += votes;
+        }
+        emit Voted(numberOfProposal, voter, votes, choose);
     }
 }

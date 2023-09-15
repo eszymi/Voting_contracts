@@ -13,8 +13,8 @@
   },
   "files": {
     "contracts/SimpleVoting.sol": {
-      "lastModificationDate": 1694505519118,
-      "contentHash": "82309fae0b8ecc37f907ef38d1fad40a",
+      "lastModificationDate": 1694799951679,
+      "contentHash": "686bdf5e4470e9af9818ec5125a5fa02",
       "sourceName": "contracts/SimpleVoting.sol",
       "solcConfig": {
         "settings": {
@@ -58,8 +58,8 @@
       }
     },
     "contracts/VotingWithDelegate.sol": {
-      "lastModificationDate": 1694505519118,
-      "contentHash": "30ad62da925cd45f159f4cdb287e6128",
+      "lastModificationDate": 1694800034879,
+      "contentHash": "f255da5039c09a05921a60896b3639dd",
       "sourceName": "contracts/VotingWithDelegate.sol",
       "solcConfig": {
         "settings": {
@@ -103,8 +103,8 @@
       }
     },
     "contracts/VotingWithPermit.sol": {
-      "lastModificationDate": 1694783336358,
-      "contentHash": "21a17ff8cf23fa231210a020c5ad1085",
+      "lastModificationDate": 1694800433989,
+      "contentHash": "6ad2509518f6d7a81bef5d616821a76d",
       "sourceName": "contracts/VotingWithPermit.sol",
       "solcConfig": {
         "settings": {
@@ -1612,7 +1612,7 @@
       }
     },
     "test/simpleVoting.t.sol": {
-      "lastModificationDate": 1694517227554,
+      "lastModificationDate": 1694784500638,
       "contentHash": "f2dfab6ecb3ef973a7e5c59eede8109c",
       "sourceName": "test/simpleVoting.t.sol",
       "solcConfig": {
@@ -1678,7 +1678,7 @@
       }
     },
     "test/votingWithDelegate.t.sol": {
-      "lastModificationDate": 1694527413754,
+      "lastModificationDate": 1694784500638,
       "contentHash": "bc8ec262c0dda5d62e68f4be3a860ea2",
       "sourceName": "test/votingWithDelegate.t.sol",
       "solcConfig": {
@@ -1747,8 +1747,8 @@
       }
     },
     "test/votingWithPermit.t.sol": {
-      "lastModificationDate": 1694783838468,
-      "contentHash": "147924b36ed1a85a2ca06d09a478b7a4",
+      "lastModificationDate": 1694799798439,
+      "contentHash": "9caa95e9e0abfa684607648d02937f28",
       "sourceName": "test/votingWithPermit.t.sol",
       "solcConfig": {
         "settings": {

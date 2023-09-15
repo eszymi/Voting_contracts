@@ -62,14 +62,14 @@ contract SimpleVotingTest is Test, VotingWithPermitEvents {
         voting.createProposal("test", last);
     }
 
-    function vote(address _address, uint256 numberOfProposal, bool _value) public {
+    function vote(address _address, uint256 numberOfProposal, bool _votes) public {
         uint256 balance = token.balanceOf(_address);
 
         vm.prank(_address);
         token.approve(address(voting), type(uint256).max);
 
         vm.prank(_address);
-        voting.vote(numberOfProposal, balance, _value);
+        voting.vote(numberOfProposal, balance, _votes);
     }
 
     function testFail_NotProposer() public {
@@ -457,6 +457,8 @@ contract PermitVotingTest is Test, VotingWithPermitEvents {
         amounts[3] = 2e18;
         vm.prank(admin);
         token.mintPerUser(addresses, amounts);
+
+        createProposal(VOTING_PERIOD);
     }
 
     function createProposal(uint256 last) public {
@@ -477,63 +479,65 @@ contract PermitVotingTest is Test, VotingWithPermitEvents {
     function calculateRSV(
         address owner,
         string memory name,
-        address spender,
         uint256 numberOfProposal,
-        uint256 value,
+        uint256 votes,
+        bool choose,
         uint256 deadline
     ) public view returns (uint8, bytes32, bytes32, bytes32) {
         uint256 _nonce = voting.nonces(owner) + 1;
         bytes32 digest = keccak256(
-            abi.encode(voting.PERMIT_TYPEHASH(), address(owner), spender, numberOfProposal, value, _nonce, deadline)
+            abi.encode(voting.PERMIT_TYPEHASH(), address(owner), numberOfProposal, votes, choose, _nonce, deadline)
         ).toEthSignedMessageHash();
         (uint8 v, bytes32 r, bytes32 s) = vm.sign(uint256(keccak256(bytes(name))), digest);
         return (v, r, s, digest);
     }
 
     function test_RSV() public {
-        (uint8 v, bytes32 r, bytes32 s, bytes32 digest) = calculateRSV(o1, "o1", o2, 0, 10, 100);
+        (uint8 v, bytes32 r, bytes32 s, bytes32 digest) = calculateRSV(o1, "o1", 0, 10, true, 100);
 
-        voting.permit(o1, o2, 0, 10, 100, digest, v, r, s);
+        voting.permitVote(o1, 0, 10, true, 100, digest, v, r, s);
     }
 
     function testFail_OwnerIsNotSigner() public {
-        (uint8 v, bytes32 r, bytes32 s, bytes32 digest) = calculateRSV(o1, "o2", o2, 0, 10, 100);
+        (uint8 v, bytes32 r, bytes32 s, bytes32 digest) = calculateRSV(o1, "o2", 0, 10, true, 100);
 
-        voting.permit(o1, o2, 0, 10, 100, digest, v, r, s);
+        voting.permitVote(o1, 0, 10, true, 100, digest, v, r, s);
     }
 
     function testFail_DeadlineExpired() public {
-        (uint8 v, bytes32 r, bytes32 s, bytes32 digest) = calculateRSV(o1, "o1", o2, 0, 10, 100);
+        (uint8 v, bytes32 r, bytes32 s, bytes32 digest) = calculateRSV(o1, "o1", 0, 10, true, 100);
 
         vm.warp(101);
 
-        voting.permit(o1, o2, 0, 10, 100, digest, v, r, s);
+        voting.permitVote(o1, 0, 10, true, 100, digest, v, r, s);
     }
 
     function testFail_MultiuseSameHash() public {
-        (uint8 v, bytes32 r, bytes32 s, bytes32 digest) = calculateRSV(o1, "o1", o2, 0, 10, 100);
+        (uint8 v, bytes32 r, bytes32 s, bytes32 digest) = calculateRSV(o1, "o1", 0, 10, true, 100);
 
-        voting.permit(o1, o2, 0, 10, 100, digest, v, r, s);
-        voting.permit(o1, o2, 0, 10, 100, digest, v, r, s);
+        voting.permitVote(o1, 0, 10, true, 100, digest, v, r, s);
+        voting.permitVote(o1, 0, 10, true, 100, digest, v, r, s);
     }
 
-    function testFail_UseSygnatureToOtherProposal() public{
-        (uint8 v, bytes32 r, bytes32 s, bytes32 digest) = calculateRSV(o1, "o1", o2, 0, 10, 100);
+    function testFail_UseSygnatureToOtherProposal() public {
+        (uint8 v, bytes32 r, bytes32 s, bytes32 digest) = calculateRSV(o1, "o1", 0, 10, true, 100);
 
-        voting.permit(o1, o2, 1, 10, 100, digest, v, r, s);
+        createProposal(VOTING_PERIOD);
+
+        voting.permitVote(o1, 1, 10, true, 100, digest, v, r, s);
     }
 
     function test_DelegateByPermit() public {
         uint256 balanceBefore = token.balanceOf(o1);
-        (uint8 v, bytes32 r, bytes32 s, bytes32 digest) = calculateRSV(o1, "o1", o2, 0, 10, 100);
+        (uint8 v, bytes32 r, bytes32 s, bytes32 digest) = calculateRSV(o1, "o1", 0, 10, true, 100);
 
-        voting.permit(o1, o2, 0, 10, 100, digest, v, r, s);
+        voting.permitVote(o1, 0, 10, true, 100, digest, v, r, s);
 
         uint256 balanceAfter = token.balanceOf(o1);
         assertEq(balanceAfter + 10, balanceBefore);
     }
 
-    function testFail_TokenApproveForDelegate() public{
+    function testFail_TokenApproveForDelegate() public {
         vm.prank(o1);
         token.approveForDelegate(o2, 1e18);
     }
