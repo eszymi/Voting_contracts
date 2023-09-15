@@ -5,7 +5,7 @@ pragma solidity ^0.8.19;
 import {Test} from "lib/forge-std/src/Test.sol";
 import {console} from "lib/forge-std/src/console.sol";
 // core contracts
-import {Token} from "contracts/Token.sol";
+import {Token} from "contracts/utility/Token.sol";
 import {SimpleVoting, SimpleVotingEvents} from "contracts/SimpleVoting.sol";
 
 contract SimpleVotingTest is Test, SimpleVotingEvents {

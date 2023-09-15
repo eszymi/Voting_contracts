@@ -4,12 +4,13 @@ pragma solidity ^0.8.19;
 // utilities
 import {Test} from "lib/forge-std/src/Test.sol";
 import {console} from "lib/forge-std/src/console.sol";
+import {ECDSA} from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 // core contracts
-import {Token} from "contracts/utility/Token.sol";
-import {VotingWithDelegate, VotingWithDelegateEvents} from "contracts/VotingWithDelegate.sol";
+import {PermitToken} from "contracts/utility/PermitToken.sol";
+import {VotingWithPermit, VotingWithPermitEvents} from "contracts/VotingWithPermit.sol";
 
 // check back compatible be this contract
-contract SimpleVotingTest is Test, VotingWithDelegateEvents {
+contract SimpleVotingTest is Test, VotingWithPermitEvents {
     uint256 public constant VOTING_PERIOD = 3600;
 
     address o1 = makeAddr("o1");
@@ -18,8 +19,8 @@ contract SimpleVotingTest is Test, VotingWithDelegateEvents {
     address o4 = makeAddr("o4");
     address admin = makeAddr("admin");
 
-    Token token;
-    VotingWithDelegate voting;
+    PermitToken token;
+    VotingWithPermit voting;
 
     /// preliminary state
     function setUp() public {
@@ -30,12 +31,15 @@ contract SimpleVotingTest is Test, VotingWithDelegateEvents {
         vm.deal(o3, 10_000 ether);
         vm.deal(o4, 10_000 ether);
 
-        // deploying token + core contract
+        // deploying PermitToken + core contract
         vm.prank(admin);
-        token = new Token('VotingToken','VT');
+        token = new PermitToken('VotingToken','VT');
 
         vm.prank(admin);
-        voting = new VotingWithDelegate(address(token));
+        voting = new VotingWithPermit(address(token), "Voting With Permit");
+
+        vm.prank(admin);
+        token.setDelegater(address(voting));
 
         // --mint tokens
         address[] memory addresses = new address[](4);
@@ -162,8 +166,8 @@ contract SimpleVotingTest is Test, VotingWithDelegateEvents {
     }
 }
 
-// check new functionalitiess
-contract DelegateVotingTest is Test, VotingWithDelegateEvents {
+// check back compatible with Delegate
+contract DelegateVotingTest is Test, VotingWithPermitEvents {
     uint256 public constant VOTING_PERIOD = 3600;
 
     address o1 = makeAddr("o1");
@@ -173,8 +177,8 @@ contract DelegateVotingTest is Test, VotingWithDelegateEvents {
     address o5 = makeAddr("o5");
     address admin = makeAddr("admin");
 
-    Token token;
-    VotingWithDelegate voting;
+    PermitToken token;
+    VotingWithPermit voting;
 
     /// preliminary state
     function setUp() public {
@@ -188,10 +192,13 @@ contract DelegateVotingTest is Test, VotingWithDelegateEvents {
 
         // deploying token + core contract
         vm.prank(admin);
-        token = new Token('VotingToken','VT');
+        token = new PermitToken('VotingToken','VT');
 
         vm.prank(admin);
-        voting = new VotingWithDelegate(address(token));
+        voting = new VotingWithPermit(address(token), "Voting With Permit");
+
+        vm.prank(admin);
+        token.setDelegater(address(voting));
 
         // --mint tokens
         address[] memory addresses = new address[](4);
@@ -391,5 +398,143 @@ contract DelegateVotingTest is Test, VotingWithDelegateEvents {
         voting.withdraw(0);
 
         assertEq(balanceO2, token.balanceOf(o2));
+    }
+}
+
+contract PermitVotingTest is Test, VotingWithPermitEvents {
+    using ECDSA for bytes32;
+
+    uint256 public constant VOTING_PERIOD = 3600;
+
+    address o1 = makeAddr("o1");
+    address o2 = makeAddr("o2");
+    address o3 = makeAddr("o3");
+    address o4 = makeAddr("o4");
+    address o5 = makeAddr("o5");
+    address admin = makeAddr("admin");
+
+    PermitToken token;
+    VotingWithPermit voting;
+
+    mapping(address => uint256) privateKeyMapping;
+
+    /// preliminary state
+    function setUp() public {
+        privateKeyMapping[o1] = uint256(keccak256(bytes("o1")));
+        privateKeyMapping[o2] = uint256(keccak256(bytes("o2")));
+        privateKeyMapping[o3] = uint256(keccak256(bytes("o3")));
+        privateKeyMapping[o4] = uint256(keccak256(bytes("o4")));
+
+        // funding accounts
+        vm.deal(admin, 10_000 ether);
+        vm.deal(o1, 10_000 ether);
+        vm.deal(o2, 10_000 ether);
+        vm.deal(o3, 10_000 ether);
+        vm.deal(o4, 10_000 ether);
+        vm.deal(o5, 10_000 ether);
+
+        // deploying token + core contract
+        vm.prank(admin);
+        token = new PermitToken('VotingToken','VT');
+
+        vm.prank(admin);
+        voting = new VotingWithPermit(address(token), "Voting With Permit");
+
+        vm.prank(admin);
+        token.setDelegater(address(voting));
+
+        // --mint tokens
+        address[] memory addresses = new address[](4);
+        uint256[] memory amounts = new uint256[](4);
+
+        addresses[0] = o1;
+        addresses[1] = o2;
+        addresses[2] = o3;
+        addresses[3] = o4;
+        amounts[0] = 5e18;
+        amounts[1] = 10e18;
+        amounts[2] = 15e18;
+        amounts[3] = 2e18;
+        vm.prank(admin);
+        token.mintPerUser(addresses, amounts);
+    }
+
+    function createProposal(uint256 last) public {
+        vm.prank(admin);
+        voting.createProposal("test", last);
+    }
+
+    function vote(address _address, uint256 numberOfProposal, bool _value) public {
+        uint256 balance = token.balanceOf(_address);
+
+        vm.prank(_address);
+        token.approve(address(voting), type(uint256).max);
+
+        vm.prank(_address);
+        voting.vote(numberOfProposal, balance, _value);
+    }
+
+    function calculateRSV(
+        address owner,
+        string memory name,
+        address spender,
+        uint256 numberOfProposal,
+        uint256 value,
+        uint256 deadline
+    ) public view returns (uint8, bytes32, bytes32, bytes32) {
+        uint256 _nonce = voting.nonces(owner) + 1;
+        bytes32 digest = keccak256(
+            abi.encode(voting.PERMIT_TYPEHASH(), address(owner), spender, numberOfProposal, value, _nonce, deadline)
+        ).toEthSignedMessageHash();
+        (uint8 v, bytes32 r, bytes32 s) = vm.sign(uint256(keccak256(bytes(name))), digest);
+        return (v, r, s, digest);
+    }
+
+    function test_RSV() public {
+        (uint8 v, bytes32 r, bytes32 s, bytes32 digest) = calculateRSV(o1, "o1", o2, 0, 10, 100);
+
+        voting.permit(o1, o2, 0, 10, 100, digest, v, r, s);
+    }
+
+    function testFail_OwnerIsNotSigner() public {
+        (uint8 v, bytes32 r, bytes32 s, bytes32 digest) = calculateRSV(o1, "o2", o2, 0, 10, 100);
+
+        voting.permit(o1, o2, 0, 10, 100, digest, v, r, s);
+    }
+
+    function testFail_DeadlineExpired() public {
+        (uint8 v, bytes32 r, bytes32 s, bytes32 digest) = calculateRSV(o1, "o1", o2, 0, 10, 100);
+
+        vm.warp(101);
+
+        voting.permit(o1, o2, 0, 10, 100, digest, v, r, s);
+    }
+
+    function testFail_MultiuseSameHash() public {
+        (uint8 v, bytes32 r, bytes32 s, bytes32 digest) = calculateRSV(o1, "o1", o2, 0, 10, 100);
+
+        voting.permit(o1, o2, 0, 10, 100, digest, v, r, s);
+        voting.permit(o1, o2, 0, 10, 100, digest, v, r, s);
+    }
+
+    function testFail_UseSygnatureToOtherProposal() public{
+        (uint8 v, bytes32 r, bytes32 s, bytes32 digest) = calculateRSV(o1, "o1", o2, 0, 10, 100);
+
+        voting.permit(o1, o2, 1, 10, 100, digest, v, r, s);
+    }
+
+    function test_DelegateByPermit() public {
+        uint256 balanceBefore = token.balanceOf(o1);
+        (uint8 v, bytes32 r, bytes32 s, bytes32 digest) = calculateRSV(o1, "o1", o2, 0, 10, 100);
+
+        voting.permit(o1, o2, 0, 10, 100, digest, v, r, s);
+
+        uint256 balanceAfter = token.balanceOf(o1);
+        assertEq(balanceAfter + 10, balanceBefore);
+    }
+
+    function testFail_TokenApproveForDelegate() public{
+        vm.prank(o1);
+        token.approveForDelegate(o2, 1e18);
     }
 }
