@@ -51,8 +51,8 @@ In this project, I am exploring the possibilities of Solidity for creating code 
 ## Roadmap
 
 - [Introduction](https://medium.com/coinmonks/voting-contracts-part-0-introduction-50846accdb59)
-- [Simple Contract]
-- [Delegate votes] 
+- [Simple Contract](https://medium.com/coinmonks/voting-contracts-part-1-simple-contract-b9f7c3b08385)
+- [Delegate votes](https://medium.com/@eszymi/voting-contract-part-2-delegate-somebody-ab3a0806c65e) 
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
