@@ -5,7 +5,6 @@ pragma solidity 0.8.19;
 import {ECDSA} from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import {EIP712} from "@openzeppelin/contracts/utils/cryptography/EIP712.sol";
 import {Nonces} from "./utility/Nonces.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 import {VotingWithPermit, VotingWithPermitEvents} from "./VotingWithPermit.sol";
 import {SnapshotToken} from "./utility/SnapshotToken.sol";
@@ -170,7 +169,7 @@ contract VotingWithSnapshot is VotingWithSnapshotEvents, EIP712, Nonces {
         _vote(msg.sender, numberOfProposal, votes, choose);
     }
 
-    function delegateVote(uint256 numberOfProposal, uint256 votes, bool choose) public nonReentrant {
+    function delegateVote(uint256 numberOfProposal, uint256 votes, bool choose) public nonReentrant virtual{
         require(proposals[numberOfProposal].deadline > block.number, "DelegateVote: too late");
 
         require(!useDelegateVote[numberOfProposal][msg.sender][choose]);
@@ -199,7 +198,7 @@ contract VotingWithSnapshot is VotingWithSnapshotEvents, EIP712, Nonces {
         }
     }
 
-    function _vote(address voter, uint256 numberOfProposal, uint256 votes, bool choose) internal {
+    function _vote(address voter, uint256 numberOfProposal, uint256 votes, bool choose) internal virtual{
         require(proposals[numberOfProposal].deadline > block.number, "Vote: too late");
 
         require(!tookParticipate[numberOfProposal][voter]);

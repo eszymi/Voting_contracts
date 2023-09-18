@@ -613,7 +613,7 @@ contract SnapshotSnapshotVotingTest is Test, VotingWithSnapshotEvents {
         vm.prank(o1);
         voting.vote(0, balance, true);
 
-        (uint8 v, bytes32 r, bytes32 s, bytes32 digest) = calculateRSV(o1, "o2", 0, 10, true, 100);
+        (uint8 v, bytes32 r, bytes32 s, bytes32 digest) = calculateRSV(o1, "o1", 0, 10, true, 100);
 
         voting.permitVote(o1, 0, 10, true, 100, digest, v, r, s);
     }
@@ -621,11 +621,11 @@ contract SnapshotSnapshotVotingTest is Test, VotingWithSnapshotEvents {
     function testFail_CanPermitVoteTwiceToTheSameProposal() public {
         createProposal(VOTING_PERIOD, 1);
 
-        (uint8 v, bytes32 r, bytes32 s, bytes32 digest) = calculateRSV(o1, "o2", 0, 10, true, 100);
+        (uint8 v, bytes32 r, bytes32 s, bytes32 digest) = calculateRSV(o1, "o1", 0, 10, true, 100);
 
         voting.permitVote(o1, 0, 10, true, 100, digest, v, r, s);
 
-        (uint8 v1, bytes32 r1, bytes32 s1, bytes32 digest1) = calculateRSV(o1, "o2", 0, 10, true, 100);
+        (uint8 v1, bytes32 r1, bytes32 s1, bytes32 digest1) = calculateRSV(o1, "o1", 0, 10, true, 100);
 
         voting.permitVote(o1, 0, 10, true, 100, digest1, v1, r1, s1);
     }
@@ -633,7 +633,7 @@ contract SnapshotSnapshotVotingTest is Test, VotingWithSnapshotEvents {
     function testFail_CanDelegateAndVoteToTheSameProposal() public {
         createProposal(VOTING_PERIOD, 1);
 
-        (uint8 v, bytes32 r, bytes32 s, bytes32 digest) = calculateRSV(o1, "o2", 0, 10, true, 100);
+        (uint8 v, bytes32 r, bytes32 s, bytes32 digest) = calculateRSV(o1, "o1", 0, 10, true, 100);
 
         voting.permitVote(o1, 0, 10, true, 100, digest, v, r, s);
 
