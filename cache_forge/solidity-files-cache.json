@@ -160,6 +160,70 @@
         }
       }
     },
+    "contracts/VotingWithSnapshot.sol": {
+      "lastModificationDate": 1695017951391,
+      "contentHash": "9dbd3b94e1428ddb7cfea939d140bfe5",
+      "sourceName": "contracts/VotingWithSnapshot.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "contracts/VotingWithDelegate.sol",
+        "contracts/VotingWithPermit.sol",
+        "contracts/utility/Nonces.sol",
+        "contracts/utility/SnapshotToken.sol",
+        "node_modules/@openzeppelin/contracts/access/Ownable.sol",
+        "node_modules/@openzeppelin/contracts/interfaces/IERC5267.sol",
+        "node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol",
+        "node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol",
+        "node_modules/@openzeppelin/contracts/token/ERC20/extensions/ERC20Snapshot.sol",
+        "node_modules/@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol",
+        "node_modules/@openzeppelin/contracts/utils/Arrays.sol",
+        "node_modules/@openzeppelin/contracts/utils/Context.sol",
+        "node_modules/@openzeppelin/contracts/utils/Counters.sol",
+        "node_modules/@openzeppelin/contracts/utils/ShortStrings.sol",
+        "node_modules/@openzeppelin/contracts/utils/StorageSlot.sol",
+        "node_modules/@openzeppelin/contracts/utils/Strings.sol",
+        "node_modules/@openzeppelin/contracts/utils/cryptography/ECDSA.sol",
+        "node_modules/@openzeppelin/contracts/utils/cryptography/EIP712.sol",
+        "node_modules/@openzeppelin/contracts/utils/math/Math.sol",
+        "node_modules/@openzeppelin/contracts/utils/math/SignedMath.sol"
+      ],
+      "versionRequirement": "=0.8.19",
+      "artifacts": {
+        "VotingWithSnapshot": {
+          "0.8.19+commit.7dd6d404.Linux.gcc": "VotingWithSnapshot.sol/VotingWithSnapshot.json"
+        },
+        "VotingWithSnapshotEvents": {
+          "0.8.19+commit.7dd6d404.Linux.gcc": "VotingWithSnapshot.sol/VotingWithSnapshotEvents.json"
+        }
+      }
+    },
     "contracts/utility/Nonces.sol": {
       "lastModificationDate": 1694531890124,
       "contentHash": "4a1c95c3ac60be3464632e88c36b991e",
@@ -243,6 +307,57 @@
       "artifacts": {
         "PermitToken": {
           "0.8.19+commit.7dd6d404.Linux.gcc": "PermitToken.sol/PermitToken.json"
+        }
+      }
+    },
+    "contracts/utility/SnapshotToken.sol": {
+      "lastModificationDate": 1694805817011,
+      "contentHash": "871af3595ad0364ac320626d9de4349b",
+      "sourceName": "contracts/utility/SnapshotToken.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "node_modules/@openzeppelin/contracts/access/Ownable.sol",
+        "node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol",
+        "node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol",
+        "node_modules/@openzeppelin/contracts/token/ERC20/extensions/ERC20Snapshot.sol",
+        "node_modules/@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol",
+        "node_modules/@openzeppelin/contracts/utils/Arrays.sol",
+        "node_modules/@openzeppelin/contracts/utils/Context.sol",
+        "node_modules/@openzeppelin/contracts/utils/Counters.sol",
+        "node_modules/@openzeppelin/contracts/utils/StorageSlot.sol",
+        "node_modules/@openzeppelin/contracts/utils/math/Math.sol"
+      ],
+      "versionRequirement": "=0.8.19",
+      "artifacts": {
+        "SnapshotToken": {
+          "0.8.19+commit.7dd6d404.Linux.gcc": "SnapshotToken.sol/SnapshotToken.json"
         }
       }
     },
@@ -1232,6 +1347,55 @@
         }
       }
     },
+    "node_modules/@openzeppelin/contracts/token/ERC20/extensions/ERC20Snapshot.sol": {
+      "lastModificationDate": 1694095795391,
+      "contentHash": "d56a22fab8dacd27861e0656c740adca",
+      "sourceName": "node_modules/@openzeppelin/contracts/token/ERC20/extensions/ERC20Snapshot.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol",
+        "node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol",
+        "node_modules/@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol",
+        "node_modules/@openzeppelin/contracts/utils/Arrays.sol",
+        "node_modules/@openzeppelin/contracts/utils/Context.sol",
+        "node_modules/@openzeppelin/contracts/utils/Counters.sol",
+        "node_modules/@openzeppelin/contracts/utils/StorageSlot.sol",
+        "node_modules/@openzeppelin/contracts/utils/math/Math.sol"
+      ],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "ERC20Snapshot": {
+          "0.8.19+commit.7dd6d404.Linux.gcc": "ERC20Snapshot.sol/ERC20Snapshot.json"
+        }
+      }
+    },
     "node_modules/@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol": {
       "lastModificationDate": 1694172822073,
       "contentHash": "909ab67fc5c25033fe6cd364f8c056f9",
@@ -1274,6 +1438,49 @@
         }
       }
     },
+    "node_modules/@openzeppelin/contracts/utils/Arrays.sol": {
+      "lastModificationDate": 1694095795391,
+      "contentHash": "64b487456525f35e7e8cf06173f748a9",
+      "sourceName": "node_modules/@openzeppelin/contracts/utils/Arrays.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "node_modules/@openzeppelin/contracts/utils/StorageSlot.sol",
+        "node_modules/@openzeppelin/contracts/utils/math/Math.sol"
+      ],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "Arrays": {
+          "0.8.19+commit.7dd6d404.Linux.gcc": "Arrays.sol/Arrays.json"
+        }
+      }
+    },
     "node_modules/@openzeppelin/contracts/utils/Context.sol": {
       "lastModificationDate": 1694172822053,
       "contentHash": "5f2c5c4b6af2dd4551027144797bc8be",
@@ -1311,6 +1518,46 @@
       "artifacts": {
         "Context": {
           "0.8.19+commit.7dd6d404.Linux.gcc": "Context.sol/Context.json"
+        }
+      }
+    },
+    "node_modules/@openzeppelin/contracts/utils/Counters.sol": {
+      "lastModificationDate": 1694095795391,
+      "contentHash": "74654e3ae5d7f39555055dfe244dab7a",
+      "sourceName": "node_modules/@openzeppelin/contracts/utils/Counters.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "^0.8.0",
+      "artifacts": {
+        "Counters": {
+          "0.8.19+commit.7dd6d404.Linux.gcc": "Counters.sol/Counters.json"
         }
       }
     },
@@ -1825,6 +2072,95 @@
         },
         "SimpleVotingTest": {
           "0.8.19+commit.7dd6d404.Linux.gcc": "votingWithPermit.t.sol/SimpleVotingTest.json"
+        }
+      }
+    },
+    "test/votingWithSnapshot.t.sol": {
+      "lastModificationDate": 1695019985031,
+      "contentHash": "d3ff1f770042528f2490a71df3960f88",
+      "sourceName": "test/votingWithSnapshot.t.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "contracts/VotingWithDelegate.sol",
+        "contracts/VotingWithPermit.sol",
+        "contracts/VotingWithSnapshot.sol",
+        "contracts/utility/Nonces.sol",
+        "contracts/utility/SnapshotToken.sol",
+        "lib/forge-std/lib/ds-test/src/test.sol",
+        "lib/forge-std/src/Base.sol",
+        "lib/forge-std/src/StdAssertions.sol",
+        "lib/forge-std/src/StdChains.sol",
+        "lib/forge-std/src/StdCheats.sol",
+        "lib/forge-std/src/StdError.sol",
+        "lib/forge-std/src/StdInvariant.sol",
+        "lib/forge-std/src/StdJson.sol",
+        "lib/forge-std/src/StdMath.sol",
+        "lib/forge-std/src/StdStorage.sol",
+        "lib/forge-std/src/StdStyle.sol",
+        "lib/forge-std/src/StdUtils.sol",
+        "lib/forge-std/src/Test.sol",
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/console.sol",
+        "lib/forge-std/src/console2.sol",
+        "lib/forge-std/src/interfaces/IMulticall3.sol",
+        "lib/forge-std/src/safeconsole.sol",
+        "node_modules/@openzeppelin/contracts/access/Ownable.sol",
+        "node_modules/@openzeppelin/contracts/interfaces/IERC5267.sol",
+        "node_modules/@openzeppelin/contracts/token/ERC20/ERC20.sol",
+        "node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol",
+        "node_modules/@openzeppelin/contracts/token/ERC20/extensions/ERC20Snapshot.sol",
+        "node_modules/@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol",
+        "node_modules/@openzeppelin/contracts/utils/Arrays.sol",
+        "node_modules/@openzeppelin/contracts/utils/Context.sol",
+        "node_modules/@openzeppelin/contracts/utils/Counters.sol",
+        "node_modules/@openzeppelin/contracts/utils/ShortStrings.sol",
+        "node_modules/@openzeppelin/contracts/utils/StorageSlot.sol",
+        "node_modules/@openzeppelin/contracts/utils/Strings.sol",
+        "node_modules/@openzeppelin/contracts/utils/cryptography/ECDSA.sol",
+        "node_modules/@openzeppelin/contracts/utils/cryptography/EIP712.sol",
+        "node_modules/@openzeppelin/contracts/utils/math/Math.sol",
+        "node_modules/@openzeppelin/contracts/utils/math/SignedMath.sol"
+      ],
+      "versionRequirement": "^0.8.19",
+      "artifacts": {
+        "SnapshotDelegateVotingTest": {
+          "0.8.19+commit.7dd6d404.Linux.gcc": "votingWithSnapshot.t.sol/SnapshotDelegateVotingTest.json"
+        },
+        "SnapshotPermitVotingTest": {
+          "0.8.19+commit.7dd6d404.Linux.gcc": "votingWithSnapshot.t.sol/SnapshotPermitVotingTest.json"
+        },
+        "SnapshotSimpleVotingTest": {
+          "0.8.19+commit.7dd6d404.Linux.gcc": "votingWithSnapshot.t.sol/SnapshotSimpleVotingTest.json"
+        },
+        "SnapshotSnapshotVotingTest": {
+          "0.8.19+commit.7dd6d404.Linux.gcc": "votingWithSnapshot.t.sol/SnapshotSnapshotVotingTest.json"
         }
       }
     }
