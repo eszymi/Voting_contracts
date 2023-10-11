@@ -286,6 +286,46 @@
         }
       }
     },
+    "contracts/utility/CheckMerkleProof.sol": {
+      "lastModificationDate": 1695300184894,
+      "contentHash": "5bd2aee53eede64ab67788f747e6df4d",
+      "sourceName": "contracts/utility/CheckMerkleProof.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionRequirement": "=0.8.19",
+      "artifacts": {
+        "CheckMerkleProof": {
+          "0.8.19+commit.7dd6d404.Linux.gcc": "CheckMerkleProof.sol/CheckMerkleProof.json"
+        }
+      }
+    },
     "contracts/utility/Nonces.sol": {
       "lastModificationDate": 1694531890124,
       "contentHash": "4a1c95c3ac60be3464632e88c36b991e",
@@ -1917,6 +1957,66 @@
       "artifacts": {
         "SignedMath": {
           "0.8.19+commit.7dd6d404.Linux.gcc": "SignedMath.sol/SignedMath.json"
+        }
+      }
+    },
+    "test/NFTplusMerkleTree.t.sol": {
+      "lastModificationDate": 1695307059496,
+      "contentHash": "79d92d639a0636aa58ecbe6241de1af5",
+      "sourceName": "test/NFTplusMerkleTree.t.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs",
+            "appendCBOR": true
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "contracts/utility/CheckMerkleProof.sol",
+        "lib/forge-std/lib/ds-test/src/test.sol",
+        "lib/forge-std/src/Base.sol",
+        "lib/forge-std/src/StdAssertions.sol",
+        "lib/forge-std/src/StdChains.sol",
+        "lib/forge-std/src/StdCheats.sol",
+        "lib/forge-std/src/StdError.sol",
+        "lib/forge-std/src/StdInvariant.sol",
+        "lib/forge-std/src/StdJson.sol",
+        "lib/forge-std/src/StdMath.sol",
+        "lib/forge-std/src/StdStorage.sol",
+        "lib/forge-std/src/StdStyle.sol",
+        "lib/forge-std/src/StdUtils.sol",
+        "lib/forge-std/src/Test.sol",
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/console.sol",
+        "lib/forge-std/src/console2.sol",
+        "lib/forge-std/src/interfaces/IMulticall3.sol",
+        "lib/forge-std/src/safeconsole.sol"
+      ],
+      "versionRequirement": "^0.8.19",
+      "artifacts": {
+        "CheckMerkleProofTest": {
+          "0.8.19+commit.7dd6d404.Linux.gcc": "NFTplusMerkleTree.t.sol/CheckMerkleProofTest.json"
         }
       }
     },
