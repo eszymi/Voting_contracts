@@ -10,7 +10,7 @@ import {SnapshotToken} from "contracts/utility/SnapshotToken.sol";
 import {NonlinearVoting} from "contracts/NonlinearVoting.sol";
 import {VotingWithSnapshotEvents} from "contracts/VotingWithSnapshot.sol";
 
-contract NonlinearVotingTest is Test, VotingWithSnapshotEvents {
+contract NonlinearVotingTest is  Test,  VotingWithSnapshotEvents {
     using ECDSA for bytes32;
 
     uint256 public constant VOTING_PERIOD = 3600;
