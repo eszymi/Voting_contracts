@@ -52,7 +52,9 @@ In this project, I am exploring the possibilities of Solidity for creating code 
 
 - [Introduction](https://medium.com/coinmonks/voting-contracts-part-0-introduction-50846accdb59)
 - [Simple Contract](https://medium.com/coinmonks/voting-contracts-part-1-simple-contract-b9f7c3b08385)
-- [Delegate votes](https://medium.com/@eszymi/voting-contract-part-2-delegate-somebody-ab3a0806c65e) 
+- [Delegate votes](https://medium.com/@eszymi/voting-contract-part-2-delegate-somebody-ab3a0806c65e)
+- [Signed votes](https://medium.com/@eszymi/voting-contract-part-3-signed-votes-dcf55e0321a0)
+- [Snapshot votes](https://medium.com/coinmonks/voting-contract-part-4-snapshots-votes-b061e0271fbf)
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -87,7 +89,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Szymon - [Linkdein](https://www.linkedin.com/in/szymon-skrzy%C5%84ski-881462214/)
+Szymon - [Linkedin](https://www.linkedin.com/in/szymon-skrzy%C5%84ski-881462214/)
 
 Project Link: [https://github.com/eszymi/voting_contracts](https://github.com/eszymi/voting_contracts)
 
