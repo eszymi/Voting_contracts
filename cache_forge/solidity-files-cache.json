@@ -13,7 +13,7 @@
   },
   "files": {
     "contracts/NonlinearVoting.sol": {
-      "lastModificationDate": 1695039946681,
+      "lastModificationDate": 1695040838941,
       "contentHash": "9a2addbb57b5ba0ca585cd7dbba97c35",
       "sourceName": "contracts/NonlinearVoting.sol",
       "solcConfig": {
@@ -223,7 +223,7 @@
       }
     },
     "contracts/VotingWithSnapshot.sol": {
-      "lastModificationDate": 1695039463051,
+      "lastModificationDate": 1699529006943,
       "contentHash": "6ac4861c6b6b3ff38bca55a7ae9ea4a3",
       "sourceName": "contracts/VotingWithSnapshot.sol",
       "solcConfig": {
@@ -2021,8 +2021,8 @@
       }
     },
     "test/nonlinearVoting.t.sol": {
-      "lastModificationDate": 1695040671531,
-      "contentHash": "42cb398de216ade4ecc819adb2bbb66f",
+      "lastModificationDate": 1699529033323,
+      "contentHash": "942c33ddee3c22fe9c1620d65e059c9b",
       "sourceName": "test/nonlinearVoting.t.sol",
       "solcConfig": {
         "settings": {
@@ -2319,7 +2319,7 @@
       }
     },
     "test/votingWithSnapshot.t.sol": {
-      "lastModificationDate": 1695040520001,
+      "lastModificationDate": 1699529016513,
       "contentHash": "1ae6a0cfdb5a5cc2f1832d6e3bc6673e",
       "sourceName": "test/votingWithSnapshot.t.sol",
       "solcConfig": {
